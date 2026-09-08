@@ -1,0 +1,40 @@
+# Core deep learning stack
+# Tested with CUDA 11.3; adjust the +cuXXX suffix to match your GPU/driver
+# if installing on a different CUDA version. Compatible with Python 3.7-3.10.
+torch==1.12.1+cu113
+torchvision==0.13.1+cu113
+
+# Data handling
+numpy==1.26.4
+pandas==2.3.3          # used by model.py's Dataset (reads CSV annotation files)
+Pillow==11.3.0          # used by model.py's Dataset (image loading)
+
+# Augmentation
+albumentations==2.0.8   # train/test transforms in train_test.py, video_inference_deltacnn.py
+
+# Video / image I/O
+# NOTE: install only ONE of opencv-python / opencv-python-headless, never both --
+# they provide the same `cv2` module and conflict. opencv-python (below) includes
+# GUI bindings; switch to opencv-python-headless if running on a headless server
+# and cv2.imshow-style calls are never used (this codebase does not use them).
+opencv-python==4.8.1.78
+
+# Visualization / progress
+matplotlib==3.9.4        # model.py's plot_image (uses TkAgg backend; needs a display)
+tqdm==4.68.4              # training progress bar in train_test.py
+
+# --------------------------------------------------------------------------
+# DeltaCNN -- NOT a normal PyPI package, cannot be pip-installed from this
+# file alone. It is Facebook Research's sparse-CNN CUDA/PyTorch extension
+# (https://github.com/facebookresearch/DeltaCNN), and must be built from
+# source against your installed CUDA toolkit:
+#
+#   git clone https://github.com/facebookresearch/DeltaCNN.git
+#   cd DeltaCNN
+#   pip install -e .
+#
+# The original environment's `pip freeze` recorded this as
+# `torchdeltacnn==0.0.0` -- the placeholder "0.0.0" version is itself a sign
+# this was a local/editable install, not a real published release; do not
+# attempt `pip install torchdeltacnn`.
+# --------------------------------------------------------------------------
